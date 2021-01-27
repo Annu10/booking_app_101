@@ -476,9 +476,11 @@ def logoutUser(request):
     return redirect('login')
 
 
-
-#these are just testing
-
+def index(request):  
+   template = loader.get_template('index.html')
+   name =  {'test' : 'test'}
+   return HttpResponse(template.render(name)) 
+  
 def mail(request):  
     subject = "Greetings"  
     msg     = "Testing django mail"  

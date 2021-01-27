@@ -137,20 +137,19 @@ class AddFloorForm(forms.ModelForm):
     class Meta:  
         model = Floor  
         fields = "__all__"
-    def clean_floor_num(self, *args, **kwargs):
+    def clean(self, *args, **kwargs):
         floor_num = self.cleaned_data.get('floor_num')
-        #print("  -- "+floor_num)
-        #if floor_num:
-        all_floors_with_num = Floor.objects.filter(floor_num= floor_num)
-        floors_with_num = []
-        for f in all_floors_with_num:
-            if int(f.floor_num) == floor_num:
-                floors_with_num.append(floor_num)           
-        if floor_num < 0:
-            raise forms.ValidationError("No negative floor allowed")
-        elif floor_num in floors_with_num:
-            raise forms.ValidationError("Floor "+str(floor_num)+" already exists")
-                  
+        if floor_num:
+            all_floors_with_num = Floor.objects.filter(floor_num= floor_num)
+            floors_with_num = []
+            for f in all_floors_with_num:
+                if int(f.floor_num) == floor_num:
+                    floors_with_num.append(floor_num)           
+                if floor_num < 0:
+                    raise forms.ValidationError("No negative floor allowed")
+                elif floor_num in floors_with_num:
+                    raise forms.ValidationError("Floor "+str(floor_num)+" already exists")
+                    
         return super(AddFloorForm, self).clean(*args, **kwargs)  
 
 class AddSeatForm(forms.ModelForm):
