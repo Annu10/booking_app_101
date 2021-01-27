@@ -1,0 +1,49 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Add floor</title>  
+    {% load static %}  
+    <link href="{% static 'css/bootstrap.min.css' %}" >  
+    <script src="{% static 'js/bootstrap.min.js' %}"></script> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <script>
+    $(function(){
+       $('.datepicker').datepicker({
+          format: 'mm-dd-yyyy'
+        });
+    });
+    </script>    
+</head>  
+<body>  
+  {% include "header.html" %}
+    <h2>Hello {{ request.user.first_name }},Select Floor and shift!!!</h2>
+    <form method="POST" action ="/select_floor_shift">
+        {% csrf_token %}
+        Floor:
+        <select name ="floor">
+          {% for floor in all_floors %}
+          <option>{{floor.floor_num}}</option>
+          {% endfor %}
+        </select>
+        Shift : <select name="shift">
+          <option>A</option>
+          <option>B</option>
+        </select>
+        <input type="hidden" name="booking_date" value ={{date}}>
+        <input type ="submit" value="View Seats" class="btn btn-info">
+</form>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} m-2" id="msg" role="alert">
+           <p style="color:red; margin-left:5%">{{ message }}></p>
+        </div>
+    {% endfor %}
+{% endif %}
+<p>Shift A - 8 AM to 4:30 PM</p>
+<p>Shift B - 5 PM to 2:30 AM</p>
+</body>  
+</html>  

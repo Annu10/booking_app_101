@@ -1,0 +1,363 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Add floor</title>  
+    {% load static %}  
+    <link href="{% static 'css/bootstrap.min.css' %}" >  
+    <script src="{% static 'js/bootstrap.min.js' %}"></script> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <script>
+    $(function(){
+       $('.datepicker').datepicker({
+          format: 'mm-dd-yyyy'
+        });
+    });
+    </script>    
+</head>  
+<body>  
+  {% include "header.html" %}
+    <h2>Hello {{ request.user.first_name }}, Check Seat Availibility!!!</h2>
+    <h4>Seats Booking status for for floor {{floor}} on {{booking_date}} for shift {{shift}}</h4> 
+
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} m-2" id="msg" role="alert">
+          <p style="color:red; margin-left:5%">{{ message }}</p> 
+        </div>
+    {% endfor %}
+{% endif %}
+
+    <div style= "margin-left:5%; margin-right:5%">
+      <h4>Sun Smart</h4>
+
+
+      <div class = "inline">
+
+
+        <table><tbody>
+        
+          <tr>
+      {% for seat in all_seats_a_1 %}
+      <td>
+      {% if seat.row == 'A' %}
+
+      {% if seat.id in self_booked_ids %}
+      <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+      
+      {% elif seat.id in booked_seat_ids  %}
+      <img src="{% static '/red.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+
+      {% else %}
+      <img src="{% static '/white.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+
+
+      {% endif %}
+
+      {% endif %}
+      {% endfor %}
+    </td>
+      </tr>
+      <tr>
+        {% for seat in all_seats_a_1 %}
+        <td>
+        {% if seat.row == 'A' %}
+
+      <form method="POST" action ="/book_seat">
+        {% csrf_token %}
+        <input type="hidden" name="seat_row" value ={{seat.row}}>
+        <input type="hidden" name="seat_num" value ={{seat.seat_num}}>
+        <input type="hidden" name="floor" value ={{floor}}>
+        <input type="hidden" name="shift" value ={{shift}}>
+        <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
+        <input type="hidden" name="seat_id" value ={{seat.id}}>
+        <input type="hidden" name="booking_date" value ={{booking_date}}>
+        <input type ="submit" value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info">
+      </form>
+
+
+      </td>
+
+
+      {% endif %}
+      {% endfor %}
+      </tr>
+
+      <tr>
+        {% for seat in all_seats_a_2 %}
+        <td>
+        {% if seat.row == 'A' %}
+  
+        {% if seat.id in self_booked_ids %}
+        <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+        
+        {% elif seat.id in booked_seat_ids  %}
+        <img src="{% static '/red.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+  
+        {% else %}
+        <img src="{% static '/white.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+  
+  
+        {% endif %}
+  
+        {% endif %}
+        {% endfor %}
+      </td>
+        </tr>
+        <tr>
+          {% for seat in all_seats_a_2 %}
+          <td>
+          {% if seat.row == 'A' %}
+  
+        <form method="POST" action ="/book_seat">
+          {% csrf_token %}
+          <input type="hidden" name="seat_row" value ={{seat.row}}>
+          <input type="hidden" name="seat_num" value ={{seat.seat_num}}>
+          <input type="hidden" name="floor" value ={{floor}}>
+          <input type="hidden" name="shift" value ={{shift}}>
+          <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
+          <input type="hidden" name="seat_id" value ={{seat.id}}>
+          <input type="hidden" name="booking_date" value ={{booking_date}}>
+          <input type ="submit" value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info">
+        </form>
+  
+  
+        </td>
+  
+  
+        {% endif %}
+        {% endfor %}
+        </tr>
+
+      </tbody>
+    </table>
+
+    </div>
+
+    </div>
+
+
+    <div style= "margin-left:5%; margin-right:5% ">
+      <h4>TCOE</h4>
+
+
+      <div class = "inline">
+
+
+        <table><tbody>
+        
+          <tr>
+      {% for seat in all_seats_b_1 %}
+      <td>
+      {% if seat.row == 'B' %}
+
+      {% if seat.id in self_booked_ids %}
+      <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+      
+      {% elif seat.id in booked_seat_ids  %}
+      <img src="{% static '/red.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+
+      {% else %}
+      <img src="{% static '/white.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+
+
+      {% endif %}
+
+      {% endif %}
+      {% endfor %}
+    </td>
+      </tr>
+      <tr>
+        {% for seat in all_seats_b_1 %}
+        <td>
+        {% if seat.row == 'B' %}
+
+      <form method="POST" action ="/book_seat">
+        {% csrf_token %}
+        <input type="hidden" name="seat_row" value ={{seat.row}}>
+        <input type="hidden" name="seat_num" value ={{seat.seat_num}}>
+        <input type="hidden" name="floor" value ={{floor}}>
+        <input type="hidden" name="shift" value ={{shift}}>
+        <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
+        <input type="hidden" name="seat_id" value ={{seat.id}}>
+        <input type="hidden" name="booking_date" value ={{booking_date}}>
+        <input type ="submit" value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info">
+      </form>
+
+
+      </td>
+
+
+      {% endif %}
+      {% endfor %}
+      </tr>
+
+      <tr>
+        {% for seat in all_seats_b_2 %}
+        <td>
+        {% if seat.row == 'B' %}
+  
+        {% if seat.id in self_booked_ids %}
+        <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+        
+        {% elif seat.id in booked_seat_ids  %}
+        <img src="{% static '/red.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+  
+        {% else %}
+        <img src="{% static '/white.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+  
+  
+        {% endif %}
+  
+        {% endif %}
+        {% endfor %}
+      </td>
+        </tr>
+        <tr>
+          {% for seat in all_seats_b_2 %}
+          <td>
+          {% if seat.row == 'B' %}
+  
+        <form method="POST" action ="/book_seat">
+          {% csrf_token %}
+          <input type="hidden" name="seat_row" value ={{seat.row}}>
+          <input type="hidden" name="seat_num" value ={{seat.seat_num}}>
+          <input type="hidden" name="floor" value ={{floor}}>
+          <input type="hidden" name="shift" value ={{shift}}>
+          <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
+          <input type="hidden" name="seat_id" value ={{seat.id}}>
+          <input type="hidden" name="booking_date" value ={{booking_date}}>
+          <input type ="submit" value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info">
+        </form>
+  
+  
+        </td>
+  
+  
+        {% endif %}
+        {% endfor %}
+        </tr>
+
+      </tbody>
+    </table>
+
+    </div>
+
+    </div>
+
+
+    <div style= "margin-left:5%; margin-right:5%;margin-bottom:5%">
+      <h4>MOBILE</h4>
+
+
+      <div class = "inline">
+
+
+        <table><tbody>
+        
+          <tr>
+      {% for seat in all_seats_c_1 %}
+      <td>
+      {% if seat.row == 'C' %}
+
+      {% if seat.id in self_booked_ids %}
+      <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+      
+      {% elif seat.id in booked_seat_ids  %}
+      <img src="{% static '/red.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+
+      {% else %}
+      <img src="{% static '/white.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+
+
+      {% endif %}
+
+      {% endif %}
+      {% endfor %}
+    </td>
+      </tr>
+      <tr>
+        {% for seat in all_seats_c_1 %}
+        <td>
+        {% if seat.row == 'C' %}
+
+      <form method="POST" action ="/book_seat">
+        {% csrf_token %}
+        <input type="hidden" name="seat_row" value ={{seat.row}}>
+        <input type="hidden" name="seat_num" value ={{seat.seat_num}}>
+        <input type="hidden" name="floor" value ={{floor}}>
+        <input type="hidden" name="shift" value ={{shift}}>
+        <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
+        <input type="hidden" name="seat_id" value ={{seat.id}}>
+        <input type="hidden" name="booking_date" value ={{booking_date}}>
+        <input type ="submit" value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info">
+      </form>
+
+
+      </td>
+
+
+      {% endif %}
+      {% endfor %}
+      </tr>
+
+      <tr>
+        {% for seat in all_seats_c_2 %}
+        <td>
+        {% if seat.row == 'C' %}
+  
+        {% if seat.id in self_booked_ids %}
+        <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+        
+        {% elif seat.id in booked_seat_ids  %}
+        <img src="{% static '/red.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+  
+        {% else %}
+        <img src="{% static '/white.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+  
+  
+        {% endif %}
+  
+        {% endif %}
+        {% endfor %}
+      </td>
+        </tr>
+        <tr>
+          {% for seat in all_seats_c_2 %}
+          <td>
+          {% if seat.row == 'C' %}
+  
+        <form method="POST" action ="/book_seat">
+          {% csrf_token %}
+          <input type="hidden" name="seat_row" value ={{seat.row}}>
+          <input type="hidden" name="seat_num" value ={{seat.seat_num}}>
+          <input type="hidden" name="floor" value ={{floor}}>
+          <input type="hidden" name="shift" value ={{shift}}>
+          <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
+          <input type="hidden" name="seat_id" value ={{seat.id}}>
+          <input type="hidden" name="booking_date" value ={{booking_date}}>
+          <input type ="submit" value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info">
+        </form>
+  
+  
+        </td>
+  
+  
+        {% endif %}
+        {% endfor %}
+        </tr>
+
+      </tbody>
+    </table>
+
+    </div>
+
+    </div >
+
+
+
+</body>  
+</html>  

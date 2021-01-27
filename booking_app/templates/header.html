@@ -1,0 +1,41 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Company Name</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Welcome {{ request.user.first_name }}!!!</a></li>
+      <li><a href="/select_date">Book Seats</a></li>
+      <li>      <div class="dropdown pull-right">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Manage Booking
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="/cancel_booking_page">Cancel Bookings</a></li>
+          <li><a href="/add-seat">Add Seat</a></li>
+         
+        </ul>
+      </div></li>
+      <div class="dropdown pull-right">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Configure Floor
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="/add-floor">Add Floor</a></li>
+          <li><a href="/add-seat">Add Seat</a></li>
+        </ul>
+      </div>
+      <li><a href="#">Page 3</a></li>
+    </ul>
+
+    <div class="dropdown pull-right">
+      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Account
+      <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li><a href="#">Update Profile</a></li>
+        <li><a href="/change-password">Change Password</a></li>
+        <li><a href="/logout" "><strong>Logout<span class="glyphicon glyphicon-log-out"><span></span></strong></a></li>
+      </ul>
+    </div>
+
+    
+  </div>
+</nav>
