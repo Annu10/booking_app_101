@@ -478,22 +478,6 @@ def logoutUser(request):
 
 
 #these are just testing
-@require_http_methods(["GET"])  
-def show(request):  
-    return HttpResponse('<h1>This is Http GET request.</h1>') 
-
-def index(request):  
-   template = loader.get_template('index.html') # getting our template
-   name =  {'student' : 'Rick!!'}
-   return HttpResponse(template.render(name))       # rendering the template in HttpResponse 
-
-def student(request):  
-    stu = StuForm()  
-    return render(request,"student.html",{'form':stu})   
-
-
-def hello(request):  
-    return HttpResponse("<h2>Wabbu  lubu dabu dab!</h2>")  
 
 def mail(request):  
     subject = "Greetings"  
