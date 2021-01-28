@@ -24,10 +24,12 @@
 {% endfor %}
 {% endif %}
 
-{% for b in bookings %}
-Floor = {{b.floor}}<br>
 
-Booking date = {{b.booking_date}} <br>
+{% for b in bookings %}
+<div>
+Floor : {{b.floor}} Seat : {{b.seat_row}}-{{b.seat_num}}
+
+Booking date : {{b.booking_date.day}}-{{b.booking_date.month}}-{{b.booking_date.year}} <br>
 <form method="POST" action ="/cancel_booking">
     {% csrf_token %}
     <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
@@ -44,7 +46,7 @@ Booking date = {{b.booking_date}} <br>
     </div>
     {% endfor %}
   </form>
-
+</div>
 {% endfor %}
 
 </div>
