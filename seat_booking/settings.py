@@ -133,11 +133,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+ADMIN_MAIL_LIST = [] #eg. ["abc@gmail.com", "xyz@gmail.com"]
+
 EMAIL_USE_TLS = True  
 EMAIL_HOST = 'smtp.gmail.com'  
 EMAIL_PORT = 587  
-EMAIL_HOST_USER = '@gmail.com'  #add your app source mail id here
-EMAIL_HOST_PASSWORD = '' #works add its source here
+EMAIL_HOST_USER = ''  #add your app source mail id here
+EMAIL_HOST_PASSWORD = '' #add your app source mail password here here
 
 
 # Static files (CSS, JavaScript, Images)

@@ -1,41 +1,70 @@
-<nav class="navbar navbar-default">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <style> 
+    /* Modify the background color*/      
+    .navbar-custom { 
+        background-color: #490B3D
+               
+    }       
+    .navbar-custom .navbar-brand,
+    .navbar-custom .navbar-nav, 
+    .navbar-custom .navbar-text { 
+        color: white; 
+    } 
+</style> 
+
+</head>
+<script>
+  $(document).ready(function() {
+    $(".dropdown-toggle").dropdown();
+});
+  </script>
+
+<nav class="navbar navbar-custom">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Company Name</a>
+      <a class="navbar-brand" href="/home">Company Name</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Welcome {{ request.user.first_name }}!!!</a></li>
+      <li class="active"><a href="/home">Welcome {{ request.user.first_name }}!!!</a></li>
       <li><a href="/select_date">Book Seats</a></li>
-      <li>      <div class="dropdown pull-right">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Manage Booking
-        <span class="caret"></span></button>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Bookings
+        <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="/cancel_booking_page">Cancel Bookings</a></li>
-          <li><a href="/add-seat">Add Seat</a></li>
-         
+          <li><a href="#">More options1</a></li>
+          <li><a href="#">More options2</a></li>
         </ul>
-      </div></li>
-      <div class="dropdown pull-right">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Configure Floor
-        <span class="caret"></span></button>
+      </li>
+      {% if is_admin == True %}
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin Portal
+        <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="/add-floor">Add Floor</a></li>
           <li><a href="/add-seat">Add Seat</a></li>
+          <li><a href="#">More options1</a></li>
+          <li><a href="#">More options2</a></li>
         </ul>
-      </div>
-      <li><a href="#">Page 3</a></li>
+      </li>
+      {% endif %}
+      <li class="dropdown pull-right" >
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Account
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Update Profile</a></li>
+          <li><a href="/change-password">Change Password</a></li>
+          <li><a href="/logout" "><strong>Logout<span class="glyphicon glyphicon-log-out"><span></span></strong></a></li>
+   
+        </ul>
+      </li>
+
     </ul>
-
-    <div class="dropdown pull-right">
-      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Account
-      <span class="caret"></span></button>
-      <ul class="dropdown-menu">
-        <li><a href="#">Update Profile</a></li>
-        <li><a href="/change-password">Change Password</a></li>
-        <li><a href="/logout" "><strong>Logout<span class="glyphicon glyphicon-log-out"><span></span></strong></a></li>
-      </ul>
-    </div>
-
-    
   </div>
 </nav>

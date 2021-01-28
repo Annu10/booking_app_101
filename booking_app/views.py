@@ -12,7 +12,7 @@ from .models import Floor,Seat, SeatBooking
 #importing loading from django template  
 from django.template import loader
 import datetime
-from .utils import rev_date, send_cancellation_mail
+from .utils import rev_date, send_cancellation_mail, is_user_admin
 from .dao import get_first_half_seats, get_second_half_seats, get_seat_bookings_for_user
 from seat_booking import settings
 from django.core.mail import send_mail 
@@ -82,6 +82,7 @@ def login_view(request, *args, ** kwargs):
 @login_required(login_url='login')
 def booking_date_form(request, *args, ** kwargs):
     print("got here1")
+    is_admin = is_user_admin(request.user.email)
     next = request.GET.get('next')
     form = BookingDateForm(request.POST or None)
     if request.method == "POST":
@@ -94,28 +95,32 @@ def booking_date_form(request, *args, ** kwargs):
             context = {
             #'form' : form,
             'all_seats' :  all_seats,
-            'all_floors' : all_floors
+            'all_floors' : all_floors,
+            'is_admin' : is_admin
             }
             #messages.error(request, 'Floor added successfully!')
             return render(request, 'select_floor_n_shift.html', {'all_seats' :  all_seats, 'all_floors' : all_floors, 
-            'date': booking_date})
+            'date': booking_date, 'is_admin' : is_admin})
         else:
             booking_date = request.POST.get('booking_date')
             print("booking date was======"+ booking_date)
 
             print("gotchaaaa")
             context = {
-            'form' : form
+            'form' : form,
+            'is_admin' : is_admin
             }    
             return render(request, 'booking_date_form.html', context)
 
     context = {
-        'form' : form
+        'form' : form,
+        'is_admin' : is_admin
     }
     return render(request, "booking_date_form.html", context)
 
 @login_required(login_url='login')
 def select_floor_shift(request, *args, ** kwargs):
+    is_admin = is_user_admin(request.user.email)
     print("got here1")
     next = request.GET.get('next')
     form = SelectFloorShiftForm(request.POST or None)
@@ -179,7 +184,8 @@ def select_floor_shift(request, *args, ** kwargs):
             'all_seats_c_1' : all_seats_c_1,
             'all_seats_a_2' : all_seats_a_2,
             'all_seats_b_2' : all_seats_b_2,
-            'all_seats_c_2' : all_seats_c_2
+            'all_seats_c_2' : all_seats_c_2,
+            'is_admin' : is_admin
             }
             print("we did got here")
             #messages.error(request, 'Floor added successfully!')
@@ -187,18 +193,21 @@ def select_floor_shift(request, *args, ** kwargs):
         else:
             print("gotchaaaa")
             context = {
-            'form' : form
+            'form' : form,
+            'is_admin' : is_admin
             }    
             return render(request, 'select_floor_n_shift.html', context)
 
     context = {
-        'form' : form
+        'form' : form,
+        'is_admin' : is_admin
     }
     return render(request, "select_floor_n_shift.html", context)
 
 #BookSeatForm
 @login_required(login_url='login')
 def book_seat(request, *args, ** kwargs):
+    is_admin = is_user_admin(request.user.email)
     print("got here1")
     next = request.GET.get('next')
     form = BookSeatForm(request.POST or None)
@@ -284,7 +293,8 @@ def book_seat(request, *args, ** kwargs):
             'all_seats_c_1' : all_seats_c_1,
             'all_seats_a_2' : all_seats_a_2,
             'all_seats_b_2' : all_seats_b_2,
-            'all_seats_c_2' : all_seats_c_2
+            'all_seats_c_2' : all_seats_c_2,
+            'is_admin' : is_admin
             }
             print("we did got here")
             #messages.error(request, 'Floor added successfully!')
@@ -292,17 +302,20 @@ def book_seat(request, *args, ** kwargs):
         else:
             print("gotchaaaa------")
             context = {
-            'form' : form
+            'form' : form,
+            'is_admin' : is_admin
             }    
             return render(request, 'select_floor_n_shift.html', context)
 
     context = {
-        'form' : form
+        'form' : form,
+        'is_admin' : is_admin
     }
     return render(request, "select_floor_n_shift.html", context)
 
 @login_required(login_url='login')
 def cancel_booking(request, *args, ** kwargs):
+    is_admin = is_user_admin(request.user.email)
     print("got in cancel booking")
     next = request.GET.get('next')
     form = CancelBookingForm(request.POST or None)
@@ -329,7 +342,8 @@ def cancel_booking(request, *args, ** kwargs):
             messages.error(request, msg)
             bookings_for_user = get_seat_bookings_for_user(request.user.username)
             context = {
-                'bookings' : bookings_for_user
+                'bookings' : bookings_for_user,
+                'is_admin' : is_admin
             }
             print("we did got here")
             #messages.error(request, 'Floor added successfully!')
@@ -337,16 +351,19 @@ def cancel_booking(request, *args, ** kwargs):
         else:
             print("cancel booking form invalid")
             context = {
-            'form' : form
+            'form' : form,
+            'is_admin' : is_admin
             }    
             return render(request, 'cancel_booking_page.html', context)
 
     context = {
-        'form' : form
+        'form' : form,
+        'is_admin' : is_admin
     }
     return render(request, "cancel_booking_page.html", context)
 
 def cancel_booking_page(request, *args, ** kwargs):
+    is_admin = is_user_admin(request.user.email)
     bookings_for_user = get_seat_bookings_for_user(request.user.username)
     seat_ids = []
     for b in bookings_for_user:
@@ -362,13 +379,16 @@ def cancel_booking_page(request, *args, ** kwargs):
         bookings = bookings_for_user
     
     context = {
-        'bookings' : bookings_for_user
+        'bookings' : bookings_for_user,
+        'is_admin' : is_admin
     }
 
     return render(request, 'cancel_booking_page.html', context)    
 
 
 def add_floor(request, *args, ** kwargs):
+    is_admin = is_user_admin(request.user.email)
+    print("testing config ="+settings.TEST_CONFIG)
     print("got here1")
     next = request.GET.get('next')
     form = AddFloorForm(request.POST or None)
@@ -381,7 +401,8 @@ def add_floor(request, *args, ** kwargs):
             #password = form.cleaned_data.get('password')
             context = {
             'form' : form,
-            'msg' : "Floor added Sucessfully"
+            'msg' : "Floor added Sucessfully",
+            'is_admin' : is_admin
             }
             messages.error(request, 'Floor added successfully!')
             render(request, 'add_floor.html', context)
@@ -392,16 +413,19 @@ def add_floor(request, *args, ** kwargs):
             #messages.warning(request, "login falied")
             #args['form'] = form #instead of PasswdForm()
             context = {
-            'form' : form
+            'form' : form,
+            'is_admin' : is_admin
             }    
             return render(request, 'add_floor.html', context)
 
     context = {
-        'form' : form
+        'form' : form,
+        'is_admin' : is_admin
     }
     return render(request, "add_floor.html", context)
 
 def add_seat(request, *args, ** kwargs):
+    is_admin = is_user_admin(request.user.email)
     print("got here1")
     next = request.GET.get('next')
     form = AddSeatForm(request.POST or None)
@@ -413,27 +437,31 @@ def add_seat(request, *args, ** kwargs):
             #username = form.cleaned_data.get('username')
             #password = form.cleaned_data.get('password')
             context = {
-            'form' : form
+            'form' : form,
+            'is_admin' : is_admin
             }
             messages.error(request, 'Seat added successfully!')
             return render(request, 'add_floor.html', context)
         else:
             print("gotchaaaa")
             context = {
-            'form' : form
+            'form' : form,
+            'is_admin' : is_admin
             }    
             return render(request, 'add_floor.html', context)
 
     context = {
-        'form' : form
+        'form' : form,
+        'is_admin' : is_admin
     }
     return render(request, "add_floor.html", context)
 
 
 @login_required(login_url='login')
 def home(request, *args, **kwargs):
+    is_admin = is_user_admin(request.user.email)
     print("user name is already set as "+request.user.username)
-    return render(request, 'home.html', {})
+    return render(request, 'home.html', {'is_admin' : is_admin})
 
 
 def logout_view(request):
@@ -480,7 +508,7 @@ def index(request):
    template = loader.get_template('index.html')
    name =  {'test' : 'test'}
    return HttpResponse(template.render(name)) 
-  
+       
 def mail(request):  
     subject = "Greetings"  
     msg     = "Testing django mail"  

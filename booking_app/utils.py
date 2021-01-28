@@ -10,6 +10,12 @@ def rev_date(str):
     result = tempstrlist[2] + "-"+ tempstrlist[1] +"-" + tempstrlist[0]
     return result
 
+def is_user_admin(email):
+    if email in settings.ADMIN_MAIL_LIST:
+        return True
+    else:
+        return False
+
 def send_mail_util(to, msg,subject):
     res     = send_mail(subject, msg, settings.EMAIL_HOST_USER, [to])  
     if(res == 1):  
