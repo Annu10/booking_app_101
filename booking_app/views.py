@@ -80,25 +80,30 @@ def booking_date_form(request, *args, ** kwargs):
     form = BookingDateForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
-            print("was here in booking date")
             booking_date = request.POST.get('booking_date')
-            print("booking date was"+ booking_date)
-            all_seats = Seat.objects.all()
-            all_floors = Floor.objects.all()
-            context = {
-            #'form' : form,
-            'all_seats' :  all_seats,
-            'all_floors' : all_floors,
-            'is_admin' : is_admin
-            }
-            #messages.error(request, 'Floor added successfully!')
-            return render(request, 'select_floor_n_shift.html', {'all_seats' :  all_seats, 'all_floors' : all_floors, 
-            'date': booking_date, 'is_admin' : is_admin})
+            r = rev_date(booking_date)
+            dt = datetime.datetime.strptime(r, "%Y-%m-%d")
+            day_of_week = dt.strftime("%A")
+            if day_of_week == 'Saturday' or day_of_week == 'Sunday':
+                context = {
+                    'form' : form,
+                    'is_admin' : is_admin
+                    }    
+                messages.error(request,"Seat bookings for "+day_of_week+"s not allowed!!!")
+                return render(request, 'booking_date_form.html', context)                
+            else:
+                all_seats = Seat.objects.all()
+                all_floors = Floor.objects.all()
+                context = {
+                #'form' : form,
+                'all_seats' :  all_seats,
+                'all_floors' : all_floors,
+                'is_admin' : is_admin
+                }
+                return render(request, 'select_floor_n_shift.html', {'all_seats' :  all_seats, 'all_floors' : all_floors, 
+                'date': booking_date, 'is_admin' : is_admin})
         else:
             booking_date = request.POST.get('booking_date')
-            print("booking date was======"+ booking_date)
-
-            print("gotchaaaa")
             context = {
             'form' : form,
             'is_admin' : is_admin
