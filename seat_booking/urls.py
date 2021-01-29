@@ -34,6 +34,7 @@ urlpatterns = [
     path('book_seat', views.book_seat),
     path('cancel_booking_page', views.cancel_booking_page),
     path('cancel_booking', views.cancel_booking),
+    path('download_report_page', views.download_report_form),
     path(
         'change-password/',
         auth_views.PasswordChangeView.as_view(

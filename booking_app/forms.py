@@ -80,6 +80,20 @@ class BookingDateForm(forms.Form):
             elif booking_date > datetime.date.today()  + datetime.timedelta(days=7):
                 raise forms.ValidationError("Seat Booking of allowed only of 1 week in advance (5 working days) !!!")
         return super(BookingDateForm, self).clean(*args, **kwargs)  
+
+class DownloadReportForm(forms.Form):
+    from_date = forms.DateField()
+    to_date = forms.DateField()
+    def clean(self, *args, **kwargs):
+        from_date = self.cleaned_data.get('from_date')
+        to_date = self.cleaned_data.get('to_date')
+
+        if from_date and to_date:
+            #user_qs = User.objects.filter(username=username)
+            if from_date > to_date:
+                print("booking_start_date > booking_end_date")
+                raise forms.ValidationError("From date should be less than To Date!!!")
+        return super(DownloadReportForm, self).clean(*args, **kwargs)  
         
 class CancelBookingForm(forms.Form):
     #booking_date = forms.DateField()

@@ -11,14 +11,14 @@ from django.contrib import messages
 from .models import Floor,Seat, SeatBooking
 #importing loading from django template  
 from django.template import loader
-import datetime
+import datetime, csv
 from .utils import rev_date, send_cancellation_mail, is_user_admin
 from .dao import get_first_half_seats, get_second_half_seats, get_seat_bookings_for_user
 from seat_booking import settings
 from django.core.mail import send_mail 
 from .form import CreateUserForm
 from .forms import (UserLoginForm, UserRegisterForm, 
-BookingDateForm, BookSeatForm, AddFloorForm, 
+BookingDateForm, BookSeatForm, AddFloorForm, DownloadReportForm,
 AddSeatForm, SelectFloorShiftForm, CancelBookingForm)
 
 def register_view(request, *args, **kwargs):
@@ -431,6 +431,56 @@ def add_seat(request, *args, ** kwargs):
         return render(request, "home.html", context)
 
 
+@login_required(login_url='login')
+def download_report_form(request, *args, **kwargs):
+    is_admin = is_user_admin(request.user.email)
+    next = request.GET.get('next')
+    form = DownloadReportForm(request.POST or None)
+    if is_admin == True:
+        if request.method == "POST":
+            if form.is_valid():
+                from_date = request.POST.get('from_date')
+                r1 = rev_date(from_date)
+                to_date = request.POST.get('to_date')
+                r2 = rev_date(to_date)            
+                dt1 = datetime.datetime.strptime(r1, "%Y-%m-%d")
+                dt2 = datetime.datetime.strptime(r2, "%Y-%m-%d")
+                day_of_week = dt1.strftime("%A")
+                bookings = SeatBooking.objects.filter(booking_date__range=[dt1, dt2]).order_by('booking_date')
+                context = {
+                #'form' : form,
+                'is_admin' : is_admin
+                }
+                response = HttpResponse(content_type='text/csv')  
+                d1 = datetime.datetime.now()          
+                file_name = "bookings"+str(d1)+".csv"
+                content_disposition = 'attachment; filename="'+file_name+'"'
+                #response['Content-Disposition'] = 'attachment; filename="bookings.csv"'  
+                response['Content-Disposition'] = content_disposition
+                writer = csv.writer(response)  
+                writer.writerow(["booking_id,booking_date,booked_by,shift,floor,seat_row,seat_num"])
+                for b in bookings:  
+                    writer.writerow([b.id,b.booking_date,b.booked_by, b.shift,b.floor,b.seat_row, b.seat_num])  
+                return response              
+            else:
+                context = {
+                'form' : form,
+                'is_admin' : is_admin
+                }    
+                return render(request, 'download_report_form.html', context)
+
+        context = {
+            'form' : form,
+            'is_admin' : is_admin
+        }
+        return render(request, "download_report_form.html", context)
+    else:
+        messages.error(request, 'Requested Page only available to admin users!')
+        context = {
+            'form' : form,
+            'is_admin' : is_admin
+        }
+        return render(request, "home.html", context)
 
 @login_required(login_url='login')
 def home(request, *args, **kwargs):
