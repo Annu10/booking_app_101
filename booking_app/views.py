@@ -214,7 +214,7 @@ def book_seat(request, *args, ** kwargs):
             all_floors = Floor.objects.all()
             r = rev_date(booking_date)
 
-            all_bookings_of_date = SeatBooking.objects.filter(booking_date = r,shift = shift)
+            all_bookings_of_date = SeatBooking.objects.filter(booking_date = r)
             booked_seat_ids = []
             prev_self_booked_ids =[]
             for b in all_bookings_of_date:
@@ -222,14 +222,14 @@ def book_seat(request, *args, ** kwargs):
                 if b.booked_by == request.user.username:
                     prev_self_booked_ids.append(b.seat_id)
             booking_possible = False
-            if  int(seat_id) in prev_self_booked_ids:
-                messages.error(request, "You have already boooked this seat!!!!")
-            elif prev_self_booked_ids !=[]:
-                messages.error(request, "You have already booked a seat for date "+booking_date+" !!!")
-            elif shift =='A' and int(seat_id)%2 ==1:
+            if shift =='A' and int(seat_id)%2 ==1:
                 messages.error(request,"Only even seat numbers booking allowed for shift A")
             elif shift =='B' and int(seat_id)%2 ==0:
                 messages.error(request,"Only odd seat numbers booking allowed for shift B")
+            elif  int(seat_id) in prev_self_booked_ids:
+                messages.error(request, "You have already boooked this seat!!!!")
+            elif prev_self_booked_ids !=[]:
+                messages.error(request, "You have already booked a seat for date "+booking_date+" !!!")
             elif int(seat_id) not in booked_seat_ids:
                 print("no booking found for seat, will book it")
                 sb = SeatBooking.objects.create(booking_date = r,shift = shift, seat_id = seat_id,booked_by = request.user.username,
