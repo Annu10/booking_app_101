@@ -344,6 +344,21 @@ def cancel_booking(request, *args, ** kwargs):
     return render(request, "cancel_booking_page.html", context)
 
 @login_required(login_url='login')
+def view_bookings(request, *args, ** kwargs):
+    is_admin = is_user_admin(request.user.email)
+    next = request.GET.get('next')
+    bookings_for_user = get_seat_bookings_for_user(request.user.username)
+    msg =""
+    if not bookings_for_user:
+        msg = "You have no bookings for next 5 working days yet!!!"
+        messages.error(request, msg)
+    context = {
+        'bookings' : bookings_for_user,
+        'is_admin' : is_admin
+    }
+    return render(request, 'view_bookings.html',context)
+
+@login_required(login_url='login')
 def cancel_booking_page(request, *args, ** kwargs):
     is_admin = is_user_admin(request.user.email)
     bookings_for_user = get_seat_bookings_for_user(request.user.username)

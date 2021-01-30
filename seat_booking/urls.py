@@ -36,6 +36,7 @@ urlpatterns = [
     path('cancel_booking', views.cancel_booking),
     path('download_report_page', views.download_report_form),
     path('declare_holiday', views.declare_holiday),
+    path('view_bookings',views.view_bookings),
     path(
         'change-password/',
         auth_views.PasswordChangeView.as_view(
