@@ -32,7 +32,7 @@
 {% endif %}
 
     <div style= "margin-left:5%; margin-right:5%">
-      <h4>Sun Smart</h4>
+      <h4>Area 1</h4>
 
 
       <div class = "inline">
@@ -46,13 +46,13 @@
       {% if seat.row == 'A' %}
 
       {% if seat.id in self_booked_ids %}
-      <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+      <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
       
       {% elif seat.id in booked_seat_ids  %}
-      <img src="{% static '/red.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+      <img src="{% static '/red.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
 
       {% else %}
-      <img src="{% static '/white.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+      <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %"/> 
 
 
       {% endif %}
@@ -141,7 +141,7 @@
 
 
     <div style= "margin-left:5%; margin-right:5% ">
-      <h4>TCOE</h4>
+      <h4>Area 2</h4>
 
 
       <div class = "inline">
@@ -155,13 +155,13 @@
       {% if seat.row == 'B' %}
 
       {% if seat.id in self_booked_ids %}
-      <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+      <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
       
       {% elif seat.id in booked_seat_ids  %}
-      <img src="{% static '/red.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+      <img src="{% static '/red.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
 
       {% else %}
-      <img src="{% static '/white.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+      <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %"/> 
 
 
       {% endif %}
@@ -201,13 +201,13 @@
         {% if seat.row == 'B' %}
   
         {% if seat.id in self_booked_ids %}
-        <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+        <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
         
         {% elif seat.id in booked_seat_ids  %}
-        <img src="{% static '/red.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+        <img src="{% static '/red.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
   
         {% else %}
-        <img src="{% static '/white.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+        <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %"/> 
   
   
         {% endif %}
@@ -250,7 +250,7 @@
 
 
     <div style= "margin-left:5%; margin-right:5%;margin-bottom:5%">
-      <h4>MOBILE</h4>
+      <h4>Area 3</h4>
 
 
       <div class = "inline">
@@ -264,13 +264,13 @@
       {% if seat.row == 'C' %}
 
       {% if seat.id in self_booked_ids %}
-      <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+      <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
       
       {% elif seat.id in booked_seat_ids  %}
-      <img src="{% static '/red.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+      <img src="{% static '/red.png' %}" alt="book_seat" height="40px%" width="35px %"/> 
 
       {% else %}
-      <img src="{% static '/white.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+      <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %"/> 
 
 
       {% endif %}
@@ -310,13 +310,13 @@
         {% if seat.row == 'C' %}
   
         {% if seat.id in self_booked_ids %}
-        <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+        <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
         
         {% elif seat.id in booked_seat_ids  %}
-        <img src="{% static '/red.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+        <img src="{% static '/red.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
   
         {% else %}
-        <img src="{% static '/white.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+        <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %"/> 
   
   
         {% endif %}

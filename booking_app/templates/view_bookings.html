@@ -14,7 +14,7 @@
 
 
 {% include "header.html" %}
-<h4>Cancel bookings</h4>
+<h4>View Your bookings</h4>
 <div style ="margin-left:5%">
 {% if messages %}
 {% for message in messages %}
@@ -30,22 +30,7 @@
 Floor : {{b.floor}} Shift : {{b.shift}} Seat : {{b.seat_row}}-{{b.seat_num}}
 
 Booking date : {{b.booking_date.day}}-{{b.booking_date.month}}-{{b.booking_date.year}} <br>
-<form method="POST" action ="/cancel_booking">
-    {% csrf_token %}
-    <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
-    <input type="hidden" name="id" value ={{b.id}}>
-    <input type ="submit" value="Cancel {{b.seat_row}}-{{b.seat_num}}" class="btn btn-info">
-
-    {% for field in form %}
-    <div class= "field">
-        {% for error in field.errors %}
-        <p  style="color:red">{{error}}</p>
-
-        {% endfor %}
-
-    </div>
-    {% endfor %}
-  </form>
+<img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
 </div>
 {% endfor %}
 
