@@ -100,13 +100,13 @@
         {% if seat.row == 'A' %}
   
         {% if seat.id in self_booked_ids %}
-        <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
+        <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
         
         {% elif seat.id in booked_seat_ids  %}
-        <img src="{% static '/red.png' %}" alt="SunLife" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
+        <img src="{% static '/red.png' %}" alt="booked-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
   
         {% else %}
-        <img src="{% static '/white.png' %}" alt="SunLife" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
+        <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
   
   
         {% endif %}
