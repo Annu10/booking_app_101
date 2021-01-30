@@ -17,6 +17,14 @@
         });
     });
     </script>    
+
+    <script>
+      function enable_button(id){
+        console.log("id waas "+id);
+        document.getElementById(id).disabled = false;
+      }
+
+    </script>
 </head>  
 <body>  
   {% include "header.html" %}
@@ -46,13 +54,13 @@
       {% if seat.row == 'A' %}
 
       {% if seat.id in self_booked_ids %}
-      <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
+      <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px " onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
       
       {% elif seat.id in booked_seat_ids  %}
-      <img src="{% static '/red.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
+      <img src="{% static '/red.png' %}" alt="booked-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
 
       {% else %}
-      <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %"/> 
+      <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
 
 
       {% endif %}
@@ -75,7 +83,7 @@
         <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
         <input type="hidden" name="seat_id" value ={{seat.id}}>
         <input type="hidden" name="booking_date" value ={{booking_date}}>
-        <input type ="submit" value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info">
+        <input type ="submit" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
       </form>
 
 
@@ -92,13 +100,13 @@
         {% if seat.row == 'A' %}
   
         {% if seat.id in self_booked_ids %}
-        <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+        <img src="{% static '/green.png' %}" alt="SunLife" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
         
         {% elif seat.id in booked_seat_ids  %}
-        <img src="{% static '/red.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+        <img src="{% static '/red.png' %}" alt="SunLife" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
   
         {% else %}
-        <img src="{% static '/white.png' %}" alt="SunLife" height="40px%" width="35px %"/> 
+        <img src="{% static '/white.png' %}" alt="SunLife" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
   
   
         {% endif %}
@@ -121,7 +129,7 @@
           <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
           <input type="hidden" name="seat_id" value ={{seat.id}}>
           <input type="hidden" name="booking_date" value ={{booking_date}}>
-          <input type ="submit" value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info">
+          <input type ="submit" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
         </form>
   
   
@@ -155,13 +163,13 @@
       {% if seat.row == 'B' %}
 
       {% if seat.id in self_booked_ids %}
-      <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
+      <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
       
       {% elif seat.id in booked_seat_ids  %}
-      <img src="{% static '/red.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
+      <img src="{% static '/red.png' %}" alt="booked-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
 
       {% else %}
-      <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %"/> 
+      <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
 
 
       {% endif %}
@@ -184,7 +192,7 @@
         <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
         <input type="hidden" name="seat_id" value ={{seat.id}}>
         <input type="hidden" name="booking_date" value ={{booking_date}}>
-        <input type ="submit" value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info">
+        <input type ="submit" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
       </form>
 
 
@@ -201,13 +209,13 @@
         {% if seat.row == 'B' %}
   
         {% if seat.id in self_booked_ids %}
-        <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
+        <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
         
         {% elif seat.id in booked_seat_ids  %}
-        <img src="{% static '/red.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
+        <img src="{% static '/red.png' %}" alt="booked-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
   
         {% else %}
-        <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %"/> 
+        <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
   
   
         {% endif %}
@@ -230,7 +238,7 @@
           <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
           <input type="hidden" name="seat_id" value ={{seat.id}}>
           <input type="hidden" name="booking_date" value ={{booking_date}}>
-          <input type ="submit" value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info">
+          <input type ="submit" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
         </form>
   
   
@@ -264,13 +272,13 @@
       {% if seat.row == 'C' %}
 
       {% if seat.id in self_booked_ids %}
-      <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
+      <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
       
       {% elif seat.id in booked_seat_ids  %}
-      <img src="{% static '/red.png' %}" alt="book_seat" height="40px%" width="35px %"/> 
+      <img src="{% static '/red.png' %}" alt="book_seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
 
       {% else %}
-      <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %"/> 
+      <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
 
 
       {% endif %}
@@ -293,7 +301,7 @@
         <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
         <input type="hidden" name="seat_id" value ={{seat.id}}>
         <input type="hidden" name="booking_date" value ={{booking_date}}>
-        <input type ="submit" value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info">
+        <input type ="submit" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
       </form>
 
 
@@ -310,13 +318,13 @@
         {% if seat.row == 'C' %}
   
         {% if seat.id in self_booked_ids %}
-        <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
+        <img src="{% static '/green.png' %}" alt="booked-seat" height="40px%" width="35px % " onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
         
         {% elif seat.id in booked_seat_ids  %}
-        <img src="{% static '/red.png' %}" alt="booked-seat" height="40px%" width="35px %"/> 
+        <img src="{% static '/red.png' %}" alt="booked-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
   
         {% else %}
-        <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %"/> 
+        <img src="{% static '/white.png' %}" alt="vacant-seat" height="40px%" width="35px %" onclick="this.src='static/grey.png'; enable_button('{{seat.id}}')"/> 
   
   
         {% endif %}
@@ -339,7 +347,7 @@
           <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
           <input type="hidden" name="seat_id" value ={{seat.id}}>
           <input type="hidden" name="booking_date" value ={{booking_date}}>
-          <input type ="submit" value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info">
+          <input type ="submit" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
         </form>
   
   
