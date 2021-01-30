@@ -30,5 +30,12 @@ class SeatBooking(models.Model):
     class Meta:
         db_table = "seatbooking"
 
+class Holiday(models.Model):
+    
+    date = models.DateField()
+    occassion = models.CharField(max_length=500)
+    class Meta:
+        db_table = "holiday"
+
 
 

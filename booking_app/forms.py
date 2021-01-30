@@ -9,7 +9,7 @@ from django.contrib.admin import widgets
 import datetime
 User = get_user_model()
 DATE_INPUT_FORMATS = ['%d-%m-%Y']
-from .models import Floor,Seat, SeatBooking
+from .models import Floor,Seat, SeatBooking, Holiday
 
 def check_size(value):
   if len(value) < 6:
@@ -93,7 +93,20 @@ class DownloadReportForm(forms.Form):
             if from_date > to_date:
                 print("booking_start_date > booking_end_date")
                 raise forms.ValidationError("From date should be less than To Date!!!")
-        return super(DownloadReportForm, self).clean(*args, **kwargs)  
+        return super(DownloadReportForm, self).clean(*args, **kwargs) 
+
+class DeclareHolidayForm(forms.ModelForm):
+    date = forms.DateField()
+    occassion = forms.CharField()
+    class Meta:  
+        model = Holiday  
+        fields = "__all__"
+    def clean(self, *args, **kwargs):
+        date = self.cleaned_data.get('date')
+        occassion = self.cleaned_data.get('occassion')
+
+        if date and occassion:
+            return super(DeclareHolidayForm, self).clean(*args, **kwargs)   
         
 class CancelBookingForm(forms.Form):
     #booking_date = forms.DateField()

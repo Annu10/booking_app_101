@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Floor,Seat, SeatBooking
+from .models import Floor,Seat, SeatBooking, Holiday
 #importing loading from django template  
 from django.template import loader
 import datetime, csv
@@ -19,7 +19,7 @@ from django.core.mail import send_mail
 from .form import CreateUserForm
 from .forms import (UserLoginForm, UserRegisterForm, 
 BookingDateForm, BookSeatForm, AddFloorForm, DownloadReportForm,
-AddSeatForm, SelectFloorShiftForm, CancelBookingForm)
+AddSeatForm, SelectFloorShiftForm, CancelBookingForm, DeclareHolidayForm)
 
 def register_view(request, *args, **kwargs):
     next = request.GET.get('next')
@@ -84,13 +84,25 @@ def booking_date_form(request, *args, ** kwargs):
             r = rev_date(booking_date)
             dt = datetime.datetime.strptime(r, "%Y-%m-%d")
             day_of_week = dt.strftime("%A")
+            date_holidays = Holiday.objects.filter(date =r)
             if day_of_week == 'Saturday' or day_of_week == 'Sunday':
                 context = {
                     'form' : form,
                     'is_admin' : is_admin
                     }    
                 messages.error(request,"Seat bookings for "+day_of_week+"s not allowed!!!")
-                return render(request, 'booking_date_form.html', context)                
+                return render(request, 'booking_date_form.html', context) 
+            elif date_holidays:
+                occassion =""
+                for h in date_holidays:
+                    occassion = h.occassion
+
+                context = {
+                    'form' : form,
+                    'is_admin' : is_admin
+                    }    
+                messages.error(request,"Seat bookings for "+booking_date+" is not allowed as its a holiday for occassion: "+occassion+"!!!")
+                return render(request, 'booking_date_form.html', context) 
             else:
                 all_seats = Seat.objects.all()
                 all_floors = Floor.objects.all()
@@ -422,6 +434,61 @@ def add_seat(request, *args, ** kwargs):
             'is_admin' : is_admin
         }
         return render(request, "add_floor.html", context)
+    else:
+        messages.error(request, 'Requested Page only available to admin users!')
+        context = {
+            'form' : form,
+            'is_admin' : is_admin
+        }
+        return render(request, "home.html", context)
+
+@login_required(login_url='login')
+def declare_holiday(request, *args, ** kwargs):
+    is_admin = is_user_admin(request.user.email)
+    next = request.GET.get('next')
+    form = DeclareHolidayForm(request.POST or None)
+    context = {}
+    if is_admin == True:
+        if request.method == "POST":
+            if form.is_valid():
+                date = request.POST.get('date')
+                occassion = request.POST.get('occassion')
+                msg = ""
+                r1 = rev_date(date)
+                r1_date = datetime.datetime.strptime(r1, "%Y-%m-%d").date()
+                d2 = datetime.date.today()  + datetime.timedelta(days=7)
+                date_holidays = Holiday.objects.filter(date =r1)
+                occassion_holidays = Holiday.objects.filter(occassion = occassion)
+                if r1_date < datetime.date.today():
+                    msg = "Holidays cannot be declared for past date"
+                elif r1_date <= d2:
+                    msg = "Holidays can be declared only in 1 week(5 working days) in advance"
+                elif not date_holidays and not occassion_holidays:
+                    msg = "Holiday added successfully for date: "+date+ " and occassion: "+occassion
+                    form.save()
+                elif not date_holidays:
+                    msg = "Holiday already added for occassion: "+occassion
+                elif not occassion_holidays:
+                    msg = "Holiday already for date: "+date
+                            
+                context = {
+                'form' : form,
+                'is_admin' : is_admin
+                }
+                messages.error(request, msg)
+                return render(request, 'declare_holiday_form.html', context)
+            else:
+                context = {
+                'form' : form,
+                'is_admin' : is_admin
+                }    
+                return render(request, 'declare_holiday_form.html', context)
+
+        context = {
+            'form' : form,
+            'is_admin' : is_admin
+        }
+        return render(request, "declare_holiday_form.html", context)
     else:
         messages.error(request, 'Requested Page only available to admin users!')
         context = {

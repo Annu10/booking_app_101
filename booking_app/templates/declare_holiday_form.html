@@ -1,0 +1,76 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Download Report</title>  
+    {% load static %}  
+    <link href="{% static 'css/bootstrap.min.css' %}" >  
+    <script src="{% static 'js/bootstrap.min.js' %}"></script> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="{% static '/admin/js/core.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/admin/css/widgets.css' %}">
+<style>.calendar>table>caption{caption-side:unset}</style><!--caption fix for bootstrap4-->
+{{ form.media }}     
+    <script>
+
+function mydate1()
+{
+ d=new Date(document.getElementById("dt").value);
+dt=d.getDate();
+mn=d.getMonth();
+mn++;
+yy=d.getFullYear();
+document.getElementById("ndt").value=dt+"/"+mn+"/"+yy
+document.getElementById("ndt").hidden=false;
+document.getElementById("dt").hidden=true;
+}
+
+$(function(){
+       $('.datepicker').datepicker({
+          //format: 'DD/MM/YYYY'
+          dateFormat: 'dd/mm/yy'
+        });
+    });
+    </script>    
+</head>  
+<body>  
+  {% include "header.html" %}
+    <h2>Hello {{ request.user.first_name }}, Select date and declare a Holiday!!!</h2>
+
+    <br><br><br><br>    <br><br><br><br>    <br><br>
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+        Date:<input type="text" data-provide="datepicker" name ="date"
+        placeholder="Select Date" data-date-format="dd-mm-yyyy">
+
+        Occassion:<input type="text"  name ="occassion"
+        placeholder="Enter Occassion" >
+        <input type ="submit" class="btn btn-info" value="Declare Holiday">
+
+        {% for field in form %}
+        <div class= "field">
+            {% for error in field.errors %}
+            <p  style="color:red">{{error}}</p>
+    
+            {% endfor %}
+
+        </div>
+        {% endfor %}
+
+
+        </div>
+</form>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} m-2" id="msg" role="alert">
+        <p style="color:red; ">{{ message }}</p> 
+        </div>
+    {% endfor %}
+{% endif %}
+
+</body>  
+</html>  
