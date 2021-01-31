@@ -84,11 +84,12 @@ class BookingDateForm(forms.Form):
 class DownloadReportForm(forms.Form):
     from_date = forms.DateField()
     to_date = forms.DateField()
+    type = forms.CharField()
     def clean(self, *args, **kwargs):
         from_date = self.cleaned_data.get('from_date')
         to_date = self.cleaned_data.get('to_date')
 
-        if from_date and to_date:
+        if from_date and to_date and type:
             #user_qs = User.objects.filter(username=username)
             if from_date > to_date:
                 print("booking_start_date > booking_end_date")
