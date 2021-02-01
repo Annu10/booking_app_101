@@ -76,7 +76,7 @@ class BookingDateForm(forms.Form):
             #user_qs = User.objects.filter(username=username)
             if booking_date < datetime.date.today():
                 print("i am here")
-                raise forms.ValidationError("Seat Booking of past date not allowed!!!") 
+                raise forms.ValidationError("Seat Booking of past date not allowed!") 
             elif booking_date > datetime.date.today()  + datetime.timedelta(days=7):
                 raise forms.ValidationError("Seat Booking of allowed only of 1 week in advance (5 working days) !!!")
         return super(BookingDateForm, self).clean(*args, **kwargs)  

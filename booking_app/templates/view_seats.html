@@ -6,24 +6,54 @@
     {% load static %}  
     <link href="{% static 'css/bootstrap.min.css' %}" >  
     <script src="{% static 'js/bootstrap.min.js' %}"></script> 
-    <script src="static/js/seats.js"></script> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    
     <script>
-    $(function(){
-       $('.datepicker').datepicker({
-          format: 'mm-dd-yyyy'
-        });
-    });
-    </script>    
+var last_seat_id = "none";
+var last_seat_color ="none";
+
+function enable_button(id){
+    console.log(last_seat_id+"-seat");
+    if(last_seat_id== id){
+        console.log("do nothing");
+    }
+    else if(last_seat_id!="none"){
+        var img_var = document.getElementById(last_seat_id+"-seat");
+        document.getElementById(last_seat_id).disabled = true;
+        img_var.src = last_seat_color;        
+        document.getElementById(id).disabled = false;
+        last_seat_color = document.getElementById(id+"-seat").src;
+        document.getElementById(id+"-seat").src ="static/grey.png";
+        last_seat_id = id;
+        document.getElementById("master_button").disabled = false;
+    }
+    else{
+        last_seat_color = document.getElementById(id+"-seat").src;
+        document.getElementById(id+"-seat").src ="static/grey.png";
+        document.getElementById(id).disabled = false;
+        last_seat_id = id;
+        document.getElementById("master_button").disabled = false;
+    }
+    
+  }
+
+function book_the_seat(str){
+
+    console.log("Current seat id= "+last_seat_id);
+    var button = document.getElementById(last_seat_id);
+    button.form.submit();
+}
+</script>
+
 
 </head>  
 <body>  
   {% include "header.html" %}
-    <h2>Hello {{ request.user.first_name }}, Check Seat Availibility!!!</h2>
-    <h4>Seats Booking status for for floor {{floor}} on {{booking_date}} for shift {{shift}}</h4> 
+    <h2>Hello {{ request.user.first_name }}, Check Seat Availibility!</h2>
+    <h4>Seats Booking status for floor {{floor}} on {{booking_date}} for shift {{shift}}</h4> 
 
     {% if messages %}
     {% for message in messages %}
@@ -77,10 +107,10 @@
         <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
         <input type="hidden" name="seat_id" value ={{seat.id}}>
         <input type="hidden" name="booking_date" value ={{booking_date}}>
-        <input type ="submit" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
+        <input type ="hidden" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
       </form>
 
-
+      &nbsp;&nbsp;{{seat.row}}-{{seat.seat_num}}
       </td>
 
 
@@ -123,10 +153,10 @@
           <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
           <input type="hidden" name="seat_id" value ={{seat.id}}>
           <input type="hidden" name="booking_date" value ={{booking_date}}>
-          <input type ="submit" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
+          <input type ="hidden" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
         </form>
   
-  
+        &nbsp;&nbsp;{{seat.row}}-{{seat.seat_num}}
         </td>
   
   
@@ -186,10 +216,10 @@
         <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
         <input type="hidden" name="seat_id" value ={{seat.id}}>
         <input type="hidden" name="booking_date" value ={{booking_date}}>
-        <input type ="submit" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
+        <input type ="hidden" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
       </form>
 
-
+      &nbsp;&nbsp;{{seat.row}}-{{seat.seat_num}}
       </td>
 
 
@@ -232,10 +262,10 @@
           <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
           <input type="hidden" name="seat_id" value ={{seat.id}}>
           <input type="hidden" name="booking_date" value ={{booking_date}}>
-          <input type ="submit" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
+          <input type ="hidden" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
         </form>
   
-  
+        &nbsp;&nbsp;{{seat.row}}-{{seat.seat_num}}
         </td>
   
   
@@ -295,9 +325,9 @@
         <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
         <input type="hidden" name="seat_id" value ={{seat.id}}>
         <input type="hidden" name="booking_date" value ={{booking_date}}>
-        <input type ="submit" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
+        <input type ="hidden" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
       </form>
-
+      &nbsp;&nbsp;{{seat.row}}-{{seat.seat_num}}
 
       </td>
 
@@ -341,9 +371,9 @@
           <input type="hidden" name="booked_by" value ={{request.user.first_name}}>
           <input type="hidden" name="seat_id" value ={{seat.id}}>
           <input type="hidden" name="booking_date" value ={{booking_date}}>
-          <input type ="submit" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
+          <input type ="hidden" disabled value="Book {{seat.row}}-{{seat.seat_num}}" class="btn btn-info" id ="{{seat.id}}">
         </form>
-  
+        &nbsp;&nbsp;{{seat.row}}-{{seat.seat_num}}
   
         </td>
   
@@ -355,6 +385,8 @@
       </tbody>
     </table>
 
+    <button id ="master_button" disabled class="btn btn-info" onclick = "book_the_seat('dummy')" >Book This Seat</button>
+    
     </div>
 
     </div >

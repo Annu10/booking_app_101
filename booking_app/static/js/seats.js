@@ -2,7 +2,6 @@ var last_seat_id = "none";
 var last_seat_color ="none";
 
 function enable_button(id){
-    var img_var = 
     console.log(last_seat_id+"-seat");
     if(last_seat_id== id){
         console.log("do nothing");

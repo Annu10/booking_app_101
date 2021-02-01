@@ -20,7 +20,7 @@
 </head>  
 <body>  
   {% include "header.html" %}
-    <h2>Hello {{ request.user.first_name }}, Add Floor!!!</h2>
+    <h2>Hello {{ request.user.first_name }}, Add Floor!</h2>
     <form method="POST">
         {% csrf_token %}
         {{form.as_table}}

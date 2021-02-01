@@ -90,7 +90,7 @@ def booking_date_form(request, *args, ** kwargs):
                     'form' : form,
                     'is_admin' : is_admin
                     }    
-                messages.error(request,"Seat bookings for "+day_of_week+"s not allowed!!!")
+                messages.error(request,"Seat bookings for "+day_of_week+"s not allowed!")
                 return render(request, 'booking_date_form.html', context) 
             elif date_holidays:
                 occassion =""
@@ -101,7 +101,7 @@ def booking_date_form(request, *args, ** kwargs):
                     'form' : form,
                     'is_admin' : is_admin
                     }    
-                messages.error(request,"Seat bookings for "+booking_date+" is not allowed as its a holiday for occassion: "+occassion+"!!!")
+                messages.error(request,"Seat bookings for "+booking_date+" is not allowed as its a holiday for occassion: "+occassion+"!")
                 return render(request, 'booking_date_form.html', context) 
             else:
                 all_seats = Seat.objects.all()
@@ -244,14 +244,14 @@ def book_seat(request, *args, ** kwargs):
             elif shift =='B' and int(seat_id)%2 ==0:
                 messages.error(request,"Only odd seat numbers booking allowed for shift B")
             elif  int(seat_id) in prev_self_booked_ids:
-                messages.error(request, "You have already boooked this seat!!!!")
+                messages.error(request, "You have already boooked this seat!")
             elif prev_self_booked_ids !=[]:
-                messages.error(request, "You have already booked a seat for date "+booking_date+" !!!")
+                messages.error(request, "You have already booked a seat for date "+booking_date+" !")
             elif int(seat_id) not in booked_seat_ids:
                 print("no booking found for seat, will book it")
                 sb = SeatBooking.objects.create(booking_date = r,shift = shift, seat_id = seat_id,booked_by = request.user.username,
                 seat_row= seat_row, seat_num =seat_num, floor = floor)
-                msg = "Hi " + request.user.username +"!!!, your Seat is booked for Seat: "+ seat_row+"-"+str(seat_num) + " Floor" + str(floor)
+                msg = "Hi " + request.user.username +"!, your Seat is booked for Seat: "+ seat_row+"-"+str(seat_num) + " Floor" + str(floor)
                 #send_mail(subject, msg, settings.EMAIL_HOST_USER, [to])  
                 send_mail("SeatBooking Confirm-SeatBookingApp", msg,settings.EMAIL_HOST_USER,[request.user.email])
                 print(sb)
@@ -259,7 +259,7 @@ def book_seat(request, *args, ** kwargs):
                 str(seat_num) + " Floor " + str(floor) +" for date: "+booking_date +" shift "+shift+", confirmation mail sent please check inbox")
                 booking_possible = True
             else:
-                messages.error(request, "Seat already booked!!!!")
+                messages.error(request, "Seat already booked!")
                 print("already booking found for "+str(seat_id))
 
             updated_all_bookings_of_date = SeatBooking.objects.filter(booking_date = r,shift = shift)
@@ -350,7 +350,7 @@ def view_bookings(request, *args, ** kwargs):
     bookings_for_user = get_seat_bookings_for_user(request.user.username)
     msg =""
     if not bookings_for_user:
-        msg = "You have no bookings for next 5 working days yet!!!"
+        msg = "You have no bookings for next 5 working days yet!"
         messages.error(request, msg)
     context = {
         'bookings' : bookings_for_user,

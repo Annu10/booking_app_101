@@ -20,7 +20,7 @@
 </head>  
 <body>  
   {% include "header.html" %}
-    <h2>Hello {{ request.user.first_name }},Select Floor and shift!!!</h2>
+    <h2>Hello {{ request.user.first_name }},Select Floor and shift!</h2>
     <form method="POST" action ="/select_floor_shift">
         {% csrf_token %}
         Floor:
